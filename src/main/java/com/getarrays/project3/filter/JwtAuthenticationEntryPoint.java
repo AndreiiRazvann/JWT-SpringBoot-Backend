@@ -3,17 +3,19 @@ package com.getarrays.project3.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.getarrays.project3.constant.SecurityConstant;
 import com.getarrays.project3.domain.HttpResponse;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
+import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@Component
 public class JwtAuthenticationEntryPoint extends Http403ForbiddenEntryPoint { //whenever a user fails to provide auth and try to access application, 403 gets fired. Uses the custom commence method
     //Check the HttpResponse class
     @Override
