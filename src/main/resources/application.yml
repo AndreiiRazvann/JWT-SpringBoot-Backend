@@ -5,16 +5,25 @@ jwt:
 
 server:
   port: 8081
+#  error:
+#    whitelabel:
+#      enabled: false
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/supportportal
+    url: jdbc:mysql://localhost:3306/usersapp
     password: password
     username: root
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+#  mvc:
+#    #we're telling spring to not handle exception by itself, to just throw the exception, without any handlers, aka ResourceHttpRequestHandler
+#    throw-exception-if-no-handler-found: true
+#  resources:
+#    #also, do not register any handler
+#    add-mappings: false
