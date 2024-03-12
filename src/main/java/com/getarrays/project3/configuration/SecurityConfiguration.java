@@ -19,9 +19,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true) //set security at method level
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private JwtAuthorizationFilter jwtAuthorizationFilter;

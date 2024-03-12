@@ -4,9 +4,11 @@ import com.getarrays.project3.service.LoginAttemptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ExecutionException;
 
+@Component
 public class AuthenticationFailureListener { //this fires everytime a user fails to login into the application
     private LoginAttemptService loginAttemptService;
 

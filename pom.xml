@@ -25,7 +25,8 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-		<dependency>
+	<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+	<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>javax.mail</artifactId>
 			<version>1.6.2</version>
@@ -71,7 +72,6 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -87,5 +87,4 @@
 			<url>https://repo.clojars.org/</url>
 		</repository>
 	</repositories>
-
 </project>

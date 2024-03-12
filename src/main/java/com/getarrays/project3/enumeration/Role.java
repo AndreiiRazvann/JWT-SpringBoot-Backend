@@ -11,7 +11,7 @@ public enum Role {
 
     private String[] authorities; //field to get all the values
 
-    Role(String...authorities) {
+    Role(String...authorities) { //indicates that the constructor can accept zero or more strings.
         this.authorities = authorities;
     }
 

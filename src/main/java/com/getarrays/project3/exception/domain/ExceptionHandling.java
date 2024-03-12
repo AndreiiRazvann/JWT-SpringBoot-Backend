@@ -21,6 +21,8 @@ import javax.persistence.NoResultException;
 import java.io.IOException;
 import java.util.Objects;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+
 @RestControllerAdvice //behave like a controller, but just handle the exceptions
 public class ExceptionHandling implements ErrorController {
 
@@ -90,7 +92,7 @@ public class ExceptionHandling implements ErrorController {
         return createHttpResponse(HttpStatus.METHOD_NOT_ALLOWED, String.format(METHOD_IS_NOT_ALLOWED, supportedMethod)); //creates a httpResponse with the suitable http method
 
         //HttpRequestMethodNotSupportedException retrieves the set of HTTP methods supported by the endpoint that triggered the exception.
-        //HttpMethod enum class in Spring that represents HTTP methods such as GET, POST, PUT, DELETE, etc
+        //HttpMethod enum class in Spring that represents HTTP methods such as GET, POST, PUT, DELETE
         //exception.getSupportedHttpMethods(): This method retrieves the supported HTTP methods associated with the exception.
         //+^In the context of the HttpRequestMethodNotSupportedException, this method returns a set of HTTP methods that are supported for the requested endpoint.
     }
@@ -99,6 +101,12 @@ public class ExceptionHandling implements ErrorController {
     public ResponseEntity<HttpResponse> internalServerErrorException(Exception exception) {
         LOGGER.error(exception.getMessage());
         return createHttpResponse(HttpStatus.INTERNAL_SERVER_ERROR, INTERNAL_SERVER_ERROR_MSG);
+    }
+
+    @ExceptionHandler(NotAnImageFileException.class)
+    public ResponseEntity<HttpResponse> notAnImageFileException(NotAnImageFileException exception) {
+        LOGGER.error(exception.getMessage());
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
     @ExceptionHandler(NoResultException.class)
@@ -114,8 +122,8 @@ public class ExceptionHandling implements ErrorController {
     }
 
     private ResponseEntity<HttpResponse> createHttpResponse(HttpStatus httpStatus, String message) { //helper method used to create an HttpResponse object based on the provided HTTP status and error message.
-        return new ResponseEntity<>(new HttpResponse(httpStatus.value(), httpStatus, httpStatus.getReasonPhrase().toUpperCase()
-                , message.toUpperCase()), httpStatus);
+        return new ResponseEntity<>(new HttpResponse(httpStatus.value(), httpStatus, httpStatus.getReasonPhrase().toUpperCase(),
+                message.toUpperCase()), httpStatus);
     }
 
     @RequestMapping(ERROR_PATH)

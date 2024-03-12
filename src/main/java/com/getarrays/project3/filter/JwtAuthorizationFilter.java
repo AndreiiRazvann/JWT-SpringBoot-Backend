@@ -21,6 +21,8 @@ import static com.getarrays.project3.constant.SecurityConstant.TOKEN_PREFIX;
 
 @Component
 public class JwtAuthorizationFilter extends OncePerRequestFilter { //authorize or not any request that comes in
+    // this filter intercepts incoming requests, checks for the presence and validity of a JWT token in the Authorization header, and if valid, sets up the Spring Security context with the user's authentication information.
+    // It also handles pre-flight requests by allowing OPTIONS requests to pass through without further processing.
     private JWTTokenProvider jwtTokenProvider;
 
     public JwtAuthorizationFilter(JWTTokenProvider jwtTokenProvider) {
@@ -30,7 +32,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter { //authorize o
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (request.getMethod().equalsIgnoreCase(SecurityConstant.OPTIONS_HTTP_METHOD)) { //determine whether a client is allowed to make a particular request to the server.
-            response.setStatus(HttpStatus.OK.value());  //If its options, return OK
+            response.setStatus(HttpStatus.OK.value());  //if request method is OPTION, we don't do anything, we just set the status ok.
         } else {
             String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION); //retrieves the value of AUTHORIZATION
             //If the Authorization header is missing or doesn't start with the token prefix 'bearer ' it means the request does not include a valid JWT token
@@ -38,7 +40,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter { //authorize o
                 filterChain.doFilter(request, response);
                 return;
             }
-            String token = authorizationHeader.substring(TOKEN_PREFIX.length());  //removes the "bearer " from the token and its gonna leave us with the actual token
+            String token = authorizationHeader.substring(TOKEN_PREFIX.length());  //removes the "bearer " from the token, and it's going to leave us with the actual token
             String username = jwtTokenProvider.getSubject(token); //get user from token provider
             if (jwtTokenProvider.isTokenValid(username, token) && SecurityContextHolder.getContext().getAuthentication() == null) {
                 List<GrantedAuthority> authorities = jwtTokenProvider.getAuthorities(token);
